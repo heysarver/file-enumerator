@@ -4,6 +4,8 @@ Copy code in a folder for use with LLMs.
 
 Aims to honor .gitignore and .dockerignore files and ignore all dev and non-text files.
 
+Perfect for use with pbcopy or outputting to a text file.
+
 ## Requirements
 - libmagic
   ```bash
