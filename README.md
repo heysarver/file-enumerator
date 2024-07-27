@@ -17,12 +17,7 @@ Create a venv
 $ python -m venv venv && source venv/bin/activate
 ````
 
-Run with pbcopy
+Run
 ```bash
-$ python file_enumerator.py ~/workspace/path/to/copy | pbcopy
-```
-
-Output to a file
-```bash
-$ python file_enumerator.py ~/workspace/path/to/copy > code.txt
+$ python file_enumerator.py ~/workspace/path/to/copy
 ```
