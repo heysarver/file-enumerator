@@ -4,6 +4,7 @@ import os
 import argparse
 import fnmatch
 import magic
+import re
 
 def load_ignore_patterns(directory):
     ignore_patterns = []
@@ -36,9 +37,22 @@ def should_ignore(path, base_path, ignore_patterns):
     return False
 
 def is_text_file(file_path):
-    mime = magic.Magic(mime=True)
-    file_type = mime.from_file(file_path)
-    return file_type.startswith('text/')
+    try:
+        mime = magic.Magic(mime=True)
+        file_type = mime.from_file(file_path)
+        
+        # Check if it's a text file based on MIME type
+        if file_type.startswith('text/'):
+            return True
+        
+        # Additional checks for specific file types
+        if file_type in ['application/json', 'application/xml', 'application/x-yaml']:
+            return True
+        
+        return False
+    except Exception as e:
+        print(f"Error checking file type: {e}")
+        return False
 
 def enumerate_files(directory):
     ignore_patterns = load_ignore_patterns(directory)
@@ -56,7 +70,12 @@ def enumerate_files(directory):
                     
                     try:
                         with open(file_path, 'r', encoding='utf-8') as f:
-                            print(f.read())
+                            content = f.read()
+                            # Remove non-printable characters
+                            content = re.sub(r'[^\x20-\x7E\n\r\t]', '', content)
+                            print(content)
+                    except UnicodeDecodeError:
+                        print(f"Error: Unable to decode file as UTF-8")
                     except Exception as e:
                         print(f"Error reading file: {e}")
                     
