@@ -41,12 +41,15 @@ def is_text_file(file_path):
         mime = magic.Magic(mime=True)
         file_type = mime.from_file(file_path)
         
+        # Debug statement to print the MIME type
+        # print(f"Debug: {file_path} MIME type: {file_type}")
+        
         # Check if it's a text file based on MIME type
         if file_type.startswith('text/'):
             return True
         
         # Additional checks for specific file types
-        if file_type in ['application/json', 'application/xml', 'application/x-yaml']:
+        if file_type in ['application/json', 'application/xml', 'application/x-yaml', 'application/javascript']:
             return True
         
         return False
@@ -93,5 +96,6 @@ def main():
         print(f"Error: {directory} is not a valid directory")
         return
     enumerate_files(directory)
+
 if __name__ == "__main__":
     main()
